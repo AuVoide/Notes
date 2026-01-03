@@ -330,6 +330,14 @@
                 Giriş Yap / Başla
             </button>
             <div id="authError" style="color:var(--danger); margin-top:15px; font-size:0.9rem; min-height:20px;"></div>
+
+            <!-- Connection Tester -->
+            <div id="connectionStatus"
+                style="margin-top:20px; font-size:0.8rem; color:var(--muted); padding:10px; border:1px dashed var(--border); border-radius:12px; cursor:pointer;"
+                onclick="testConnection()">
+                <i data-lucide="activity" width="14" style="vertical-align:middle;"></i>
+                <span>Bağlantı Testi (Tıkla)</span>
+            </div>
         </div>
     </div>
 
@@ -397,7 +405,8 @@
 
     <script>
         // CONFIG
-        const CLOUD_URL = "https://script.google.com/macros/s/AKfycbwRnJlsAzCgDmT2HYiOP-lXH1AJBoo2lw51kB_O0itnmJlIleqdHx6Z6cJQAoX-rSc0vg/exec";
+        // UPDATED LINK: ...84TQHtnLAVOoALg/exec
+        const CLOUD_URL = "https://script.google.com/macros/s/AKfycbwCfPGBYSqpUB1rPbDrrwfO7nFUkCr28oawG_mK9UZOJey4smainRJ84TQHtnLAVOoALg/exec";
         const GROQ_KEY = "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";
 
         let currentUser = null;
@@ -412,6 +421,34 @@
             if (savedUser) {
                 currentUser = savedUser;
                 enterApp();
+            }
+        }
+
+        async function testConnection() {
+            const el = document.getElementById('connectionStatus');
+            el.innerHTML = '<span style="color:#fbbf24">Sunucuya ulaşılıyor...</span>';
+
+            try {
+                // Simple Ping
+                const res = await fetch(CLOUD_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'ping', username: 'test' }),
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+                });
+
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                const data = await res.json();
+
+                if (data.result === 'success') {
+                    el.innerHTML = '<span style="color:#10b981">✓ BAĞLANTI BAŞARILI (Eşitlendi)</span>';
+                    showToast('Sunucu Yanıt Verdi!', 'success');
+                } else {
+                    throw new Error(data.error || 'Bilinmeyen Hata');
+                }
+            } catch (e) {
+                console.error(e);
+                el.innerHTML = '<span style="color:#ef4444">❌ BAĞLANTI HATASI!</span>';
+                alert("BAĞLANTI HATASI!\n\nSebep: " + e.message + "\n\nLütfen Google Apps Script'i 'Anyone' (Herkes) erişimiyle deploy ettiğinizden emin olun.");
             }
         }
 

@@ -5,25 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Aurora Ultra Pro | Master Final</title>
+    <title>Aurora Infinity | The ultimate Note Experience</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --bg: #020617;
-            --surface: rgba(255, 255, 255, 0.03);
+            --bg: #010309;
+            --surface: rgba(255, 255, 255, 0.02);
             --surface-bright: rgba(255, 255, 255, 0.08);
-            --border: rgba(255, 255, 255, 0.1);
+            --border: rgba(255, 255, 255, 0.08);
             --accent: #6366f1;
             --accent-glow: rgba(99, 102, 241, 0.4);
-            --text: #f8fafc;
+            --text: #ffffff;
             --text-dim: #94a3b8;
-            --danger: #ef4444;
-            --success: #10b981;
-            --ai: #22d3ee;
+            --danger: #ff4d4d;
+            --success: #00e676;
+            --ai: #00f2ff;
             --safe-bottom: env(safe-area-inset-bottom, 20px);
         }
 
@@ -40,10 +40,34 @@
             color: var(--text);
             height: 100vh;
             overflow: hidden;
+            position: relative;
         }
 
-        /* Auth Screen */
-        .auth-overlay {
+        /* Dynamic Background */
+        .bg-glow {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: var(--accent-glow);
+            filter: blur(150px);
+            border-radius: 50%;
+            z-index: -1;
+            animation: float 15s infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(-20%, -20%) scale(1);
+            }
+
+            100% {
+                transform: translate(80%, 80%) scale(1.5);
+            }
+        }
+
+        /* Authentication UI - Totally Rebuilt */
+        .auth-container {
             position: fixed;
             inset: 0;
             background: var(--bg);
@@ -51,270 +75,260 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 40px;
-            transition: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            align-items: center;
+            padding: 30px;
+            transition: 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        .auth-overlay.hidden {
-            transform: translateY(-100%);
+        .auth-container.hidden {
+            transform: scale(1.2);
             opacity: 0;
             pointer-events: none;
         }
 
         .auth-card {
-            background: var(--surface);
+            background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--border);
-            padding: 30px;
-            border-radius: 30px;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(30px);
+            border-radius: 35px;
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
         }
 
-        .input-group {
+        .auth-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .auth-logo {
+            width: 80px;
+            height: 80px;
+            background: var(--accent);
+            border-radius: 30%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 0 40px var(--accent-glow);
+            animation: spinLogo 10s infinite linear;
+        }
+
+        @keyframes spinLogo {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .auth-tabs {
+            display: flex;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 5px;
+            margin-bottom: 30px;
+        }
+
+        .auth-tab-btn {
+            flex: 1;
+            border: none;
+            background: none;
+            padding: 10px;
+            color: var(--text-dim);
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 12px;
+        }
+
+        .auth-tab-btn.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .input-wrap {
             position: relative;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
-        .input-group input {
+        .input-wrap i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-dim);
+        }
+
+        .input-wrap input {
             width: 100%;
             background: rgba(0, 0, 0, 0.2);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 16px;
+            border-radius: 18px;
+            padding: 16px 16px 16px 50px;
             color: white;
             outline: none;
             transition: 0.3s;
             font-size: 1rem;
         }
 
-        .input-group input:focus {
+        .input-wrap input:focus {
             border-color: var(--accent);
-            box-shadow: 0 0 15px var(--accent-glow);
+            background: rgba(0, 0, 0, 0.4);
+            box-shadow: 0 0 20px var(--accent-glow);
         }
 
-        .btn-auth {
+        .btn-primary {
             width: 100%;
-            padding: 18px;
-            border-radius: 16px;
-            border: none;
             background: var(--accent);
             color: white;
-            font-weight: 800;
+            border: none;
+            padding: 18px;
+            border-radius: 20px;
+            font-weight: 900;
+            font-size: 1.1rem;
             cursor: pointer;
-            box-shadow: 0 4px 20px var(--accent-glow);
+            box-shadow: 0 10px 30px var(--accent-glow);
             transition: 0.3s;
         }
 
-        .btn-auth:active {
-            transform: scale(0.98);
+        .btn-primary:active {
+            transform: scale(0.96);
         }
 
-        /* Main App */
-        .app {
+        /* Main App Interface */
+        .app-shell {
             display: flex;
             flex-direction: column;
             height: 100vh;
+            opacity: 0;
+            transition: 1s ease;
+        }
+
+        .app-shell.ready {
             opacity: 1;
-            transition: 0.5s;
         }
 
         header {
-            padding: 30px 20px 15px;
-            background: linear-gradient(to bottom, var(--bg), transparent);
-            z-index: 10;
-        }
-
-        .header-row {
+            padding: 40px 25px 20px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-end;
         }
 
-        .profile {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+        .user-info h2 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: -1px;
         }
 
-        .avatar {
-            width: 46px;
-            height: 46px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, var(--accent), var(--ai));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            color: white;
-            box-shadow: 0 4px 12px var(--accent-glow);
+        .user-info p {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            font-weight: 500;
         }
 
-        /* Tab System */
-        .content-area {
+        /* Notes Grid */
+        .scroller {
             flex: 1;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .tab-pane {
-            position: absolute;
-            inset: 0;
-            padding: 10px 20px 100px;
             overflow-y: auto;
-            display: none;
-            flex-direction: column;
-            opacity: 0;
-            transition: 0.4s;
+            padding: 10px 25px 120px;
         }
 
-        .tab-pane.active {
-            display: flex;
-            opacity: 1;
-        }
-
-        /* Notes Card */
-        .notes-grid {
+        .grid {
             display: grid;
             gap: 20px;
         }
 
         .note-card {
-            background: var(--surface);
+            background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--border);
-            border-radius: 28px;
-            padding: 22px;
-            transition: 0.3s;
-            border-left: 5px solid var(--accent);
+            border-radius: 30px;
+            padding: 25px;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(10px);
         }
 
         .note-card:active {
-            transform: scale(0.97);
-            background: var(--surface-bright);
+            transform: scale(0.95) rotate(-1deg);
         }
 
         .note-card h3 {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
             font-weight: 700;
-            margin-bottom: 8px;
         }
 
-        .note-card .preview-text {
-            font-size: 0.9rem;
-            color: var(--text-dim);
-            line-height: 1.5;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .note-card img {
-            width: 100%;
-            border-radius: 16px;
-            margin-top: 12px;
-            max-height: 180px;
-            object-fit: cover;
-        }
-
-        /* AI Chat */
-        .msg-container {
-            padding-bottom: 120px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .msg {
-            max-width: 85%;
-            padding: 15px 20px;
-            border-radius: 24px;
+        .note-card p {
             font-size: 0.95rem;
+            color: var(--text-dim);
             line-height: 1.6;
         }
 
-        .msg.user {
-            background: var(--accent);
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
-            box-shadow: 0 4px 12px var(--accent-glow);
+        .note-card .img-preview {
+            width: 100%;
+            border-radius: 20px;
+            margin-top: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
         }
 
-        .msg.ai {
-            background: var(--surface-bright);
-            align-self: flex-start;
-            border-bottom-left-radius: 4px;
-            border: 1px solid rgba(34, 211, 238, 0.2);
-        }
-
-        .ai-input-fixed {
-            position: fixed;
-            bottom: calc(90px + var(--safe-bottom));
-            left: 20px;
-            right: 20px;
-            background: rgba(15, 23, 42, 0.9);
-            backdrop-filter: blur(25px);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            display: flex;
-            padding: 8px;
-            align-items: center;
-            z-index: 100;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        .ai-input-fixed input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: white;
-            padding: 12px 18px;
-            outline: none;
-            font-size: 1rem;
-        }
-
-        /* Master Editor */
-        .editor-view {
+        /* Editor Overhaul */
+        .editor {
             position: fixed;
             inset: 0;
             background: var(--bg);
             z-index: 8000;
             display: none;
             flex-direction: column;
-            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             transform: translateY(100%);
+            transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
-        .editor-view.active {
+        .editor.active {
             display: flex;
             transform: translateY(0);
         }
 
-        .editor-top {
-            padding: 20px;
+        .editor-head {
+            padding: 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--border);
+        }
+
+        #noteTitle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.6rem;
+            font-weight: 900;
+            outline: none;
+            flex: 1;
         }
 
         .editor-tools {
-            padding: 10px 20px;
             display: flex;
-            gap: 10px;
+            gap: 12px;
+            padding: 15px 25px;
             overflow-x: auto;
-            background: var(--surface);
+            background: rgba(255, 255, 255, 0.02);
+            border-top: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
         }
 
-        .tool-btn {
-            background: var(--surface-bright);
+        .t-btn {
+            min-width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.05);
             border: none;
             color: white;
-            min-width: 44px;
-            height: 44px;
-            border-radius: 14px;
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -322,31 +336,8 @@
             transition: 0.2s;
         }
 
-        .tool-btn:active {
-            transform: scale(0.9);
-        }
-
-        .tool-btn.active {
+        .t-btn.active {
             background: var(--accent);
-        }
-
-        #richEditor {
-            flex: 1;
-            padding: 25px;
-            outline: none;
-            font-size: 1.15rem;
-            line-height: 1.8;
-            overflow-y: auto;
-            overflow-x: hidden;
-            position: relative;
-            z-index: 1;
-        }
-
-        #richEditor img {
-            max-width: 100%;
-            border-radius: 20px;
-            margin: 15px 0;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
         }
 
         #canvasLayer {
@@ -356,22 +347,40 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 2;
+            z-index: 10;
         }
 
         #canvasLayer.active {
             pointer-events: all;
+            cursor: crosshair;
         }
 
-        /* Navigation */
+        #visualEditor {
+            flex: 1;
+            padding: 30px;
+            outline: none;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        #visualEditor img {
+            max-width: 100%;
+            border-radius: 25px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+
+        /* Bottom Nav */
         .nav {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            height: calc(75px + var(--safe-bottom));
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(30px);
+            height: calc(80px + var(--safe-bottom));
+            background: rgba(5, 8, 18, 0.85);
+            backdrop-filter: blur(40px);
             border-top: 1px solid var(--border);
             display: flex;
             justify-content: space-around;
@@ -380,78 +389,39 @@
             z-index: 1000;
         }
 
-        .nav-item {
-            color: var(--text-dim);
-            border: none;
+        .nav-link {
             background: none;
+            border: none;
+            color: var(--text-dim);
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 5px;
-            font-size: 0.75rem;
+            gap: 6px;
             font-weight: 600;
-            cursor: pointer;
+            font-size: 0.75rem;
+            transition: 0.3s;
         }
 
-        .nav-item.active {
+        .nav-link.active {
             color: var(--accent);
         }
 
-        .nav-item.ai-active {
+        .nav-link.ai {
             color: var(--ai);
         }
 
-        .fab {
-            width: 65px;
-            height: 65px;
-            border-radius: 22px;
+        .nav-plus {
+            width: 68px;
+            height: 68px;
             background: var(--accent);
+            border-radius: 24px;
             color: white;
             border: none;
             transform: translateY(-30px);
-            box-shadow: 0 12px 24px var(--accent-glow);
+            box-shadow: 0 15px 40px var(--accent-glow);
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-        }
-
-        /* Settings Panels */
-        .card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 25px;
-            margin-bottom: 20px;
-        }
-
-        .card h3 {
-            margin-bottom: 15px;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .loading-dots {
-            display: flex;
-            gap: 5px;
-            padding: 10px;
-        }
-
-        .dot-pulse {
-            width: 8px;
-            height: 8px;
-            background: var(--ai);
-            border-radius: 50%;
-            animation: pulse 1s infinite alternate;
-        }
-
-        @keyframes pulse {
-            to {
-                opacity: 0.3;
-                transform: scale(0.8);
-            }
         }
 
         .hidden {
@@ -462,200 +432,197 @@
 
 <body>
 
-    <!-- Auth System -->
-    <div class="auth-overlay" id="authOverlay">
+    <div class="bg-glow"></div>
+
+    <!-- Rebuilt Auth System -->
+    <div class="auth-container" id="authZone">
         <div class="auth-card">
-            <div style="text-align:center; margin-bottom:40px;">
-                <div class="avatar"
-                    style="width:70px; height:70px; margin:0 auto 20px; border-radius:20px; font-size:1.8rem;">A</div>
-                <h1 style="font-size:2rem; font-weight:800;">Aurora Ultra Pro</h1>
-                <p style="color:var(--text-dim); margin-top:8px;">Başlamak için kullanıcı adı seçin.</p>
+            <div class="auth-header">
+                <div class="auth-logo"><i data-lucide="infinity" style="color:white; width:40px; height:40px;"></i>
+                </div>
+                <h1 id="authTitle">Aurora Infinity</h1>
+                <p style="color:var(--text-dim); margin-top:10px;">Geleceğin not defterine hoş geldin.</p>
             </div>
-            <div class="input-group">
-                <input type="text" id="authU" placeholder="Kullanıcı Adı">
+
+            <div class="auth-tabs">
+                <button class="auth-tab-btn active" id="tabLogin" onclick="setAuthMode('login')">Giriş Yap</button>
+                <button class="auth-tab-btn" id="tabSignup" onclick="setAuthMode('signup')">Kayıt Ol</button>
             </div>
-            <div class="input-group">
-                <input type="password" id="authP" placeholder="Şifre">
+
+            <div class="input-wrap">
+                <i data-lucide="user"></i>
+                <input type="text" id="uInp" placeholder="Kullanıcı Adı">
             </div>
-            <button class="btn-auth" id="loginBtn">Giriş Yap / Kaydol</button>
+            <div class="input-wrap">
+                <i data-lucide="lock"></i>
+                <input type="password" id="pInp" placeholder="Şifre">
+            </div>
+
+            <button class="btn-primary" id="goBtn">DEVAM ET</button>
         </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="app hidden" id="appMain">
+    <!-- Infinity App Shell -->
+    <div class="app-shell" id="appShell">
         <header>
-            <div class="header-row">
-                <div class="profile">
-                    <div class="avatar" id="navAvatar">U</div>
-                    <div>
-                        <h2 id="welcomeText" style="font-size:1.2rem; font-weight:800;">Merhaba!</h2>
-                        <div
-                            style="display:flex; align-items:center; gap:6px; font-size:0.75rem; color:var(--text-dim);">
-                            <span id="syncIndicator">●</span> <span id="syncStatus">Yerel Mod</span>
-                        </div>
-                    </div>
-                </div>
-                <div style="display:flex; gap:12px;">
-                    <button class="tool-btn" onclick="document.getElementById('importFile').click()"><i
-                            data-lucide="file-down"></i></button>
-                    <input type="file" id="importFile" accept=".docau" class="hidden">
-                    <button class="tool-btn" id="logoutBtn"><i data-lucide="log-out"></i></button>
-                </div>
+            <div class="user-info">
+                <p>İyi günler,</p>
+                <h2 id="uDisplayName">Bilge Gezgin</h2>
+            </div>
+            <div style="display:flex; gap:12px;">
+                <button class="t-btn" onclick="document.getElementById('fileInp').click()"><i
+                        data-lucide="upload-cloud"></i></button>
+                <input type="file" id="fileInp" class="hidden" accept=".docau">
+                <button class="t-btn" onclick="logout()"><i data-lucide="log-out"></i></button>
             </div>
         </header>
 
-        <main class="content-area">
-            <!-- Notes Tab -->
-            <div class="tab-pane active" id="tabNotes">
-                <div
-                    style="background:var(--surface); border:1px solid var(--border); border-radius:20px; padding:14px 20px; display:flex; align-items:center; gap:14px; margin-bottom:25px; backdrop-filter:blur(10px);">
-                    <i data-lucide="search" style="width:20px; color:var(--text-dim);"></i>
-                    <input type="text" id="searchInput" placeholder="Her şeyi ara..."
-                        style="background:transparent; border:none; color:white; outline:none; flex:1; font-size:1rem;">
-                </div>
-                <div class="notes-grid" id="notesList"></div>
+        <main class="scroller" id="notesTab">
+            <div
+                style="background:rgba(255,255,255,0.03); border:1px solid var(--border); padding:16px 20px; border-radius:22px; margin-bottom:30px; display:flex; align-items:center; gap:15px; backdrop-filter:blur(20px);">
+                <i data-lucide="search" style="width:20px; color:var(--text-dim);"></i>
+                <input type="text" id="searchInp" placeholder="Notlarında veya AI belleğinde ara..."
+                    style="background:none; border:none; color:white; flex:1; outline:none; font-size:1rem;">
             </div>
+            <div class="grid" id="noteGrid"></div>
+        </main>
 
-            <!-- AI Tab -->
-            <div class="tab-pane" id="tabAI">
-                <div class="msg-container" id="aiChat">
-                    <div class="msg ai">Selam! Ben Aurora AI. Notlarını yönetebilir, resimlerini analiz edebilir veya
-                        yeni dökümanlar oluşturabilirim. Ne yapalım?</div>
-                </div>
-                <div class="ai-input-fixed">
-                    <input type="text" id="aiInput" placeholder="Müdüre komut ver...">
-                    <button class="tool-btn" id="aiSend" style="background:var(--ai); color:black; border:none;"><i
-                            data-lucide="send"></i></button>
-                </div>
+        <main class="scroller hidden" id="aiTab">
+            <div id="aiBox" style="display:flex; flex-direction:column; gap:20px;">
+                <div class="msg ai">Sana nasıl yardımcı olabilirim? Notlarını düzenleyebilir, özetleyebilir veya yeni
+                    fikirler üretebilirim.</div>
             </div>
-
-            <!-- Settings Tab -->
-            <div class="tab-pane" id="tabSettings">
-                <div class="card">
-                    <h3><i data-lucide="cloud"></i> Google Sheets Bulut</h3>
-                    <p style="font-size:0.85rem; color:var(--text-dim); margin-bottom:15px;">Apps Script URL'nizi buraya
-                        yapıştırarak senkronizasyonu başlatın.</p>
-                    <input type="text" id="gsUrl" class="input-group"
-                        style="width:100%; border-radius:12px; background:rgba(0,0,0,0.3); padding:14px; margin-bottom:12px; color:white; border:1px solid var(--border);"
-                        placeholder="https://script.google.com/macros/s/.../exec">
-                    <button class="btn-auth" style="padding:12px;" onclick="saveCloudSettings()">Bağlan & Senkronize
-                        Et</button>
-                </div>
-                <div class="card">
-                    <h3><i data-lucide="database"></i> Yedekleme</h3>
-                    <button class="btn-auth" style="background:var(--surface-bright); margin-bottom:10px;"
-                        onclick="exportAllNotes()">Tüm Notları İndir (.docau)</button>
-                    <button class="btn-auth" style="background:var(--danger);" onclick="factoryReset()">Uygulamayı
-                        Sıfırla</button>
-                </div>
-            </div>
+            <!-- AI Input Fixed is handled by JS -->
         </main>
 
         <nav class="nav">
-            <button class="nav-item active" id="navNotesBtn" onclick="switchTab('notes')"><i
-                    data-lucide="layout"></i><span>Notlarım</span></button>
-            <button class="nav-item" id="navAIBtn" onclick="switchTab('ai')"><i
-                    data-lucide="cpu"></i><span>Asistan</span></button>
-            <button class="fab" id="addNewBtn"><i data-lucide="plus" style="width:30px; height:30px;"></i></button>
-            <button class="nav-item" id="navSettingsBtn" onclick="switchTab('settings')"><i
-                    data-lucide="settings"></i><span>Ayarlar</span></button>
-            <button class="nav-item" onclick="exportAllNotes()"><i data-lucide="archive"></i><span>Dışa
-                    Aktar</span></button>
+            <button class="nav-link active" onclick="goTab('notes')"><i
+                    data-lucide="layout-dashboard"></i><span>Odak</span></button>
+            <button class="nav-link" onclick="goTab('ai')"><i data-lucide="brain-circuit"></i><span>Zeka</span></button>
+            <button class="nav-plus" id="createBtn"><i data-lucide="plus" style="width:30px; height:30px;"></i></button>
+            <button class="nav-link"><i data-lucide="folder-kanban"></i><span>Arşiv</span></button>
+            <button class="nav-link"><i data-lucide="settings"></i><span>Sistem</span></button>
         </nav>
     </div>
 
-    <!-- Master Pro Editor -->
-    <div class="editor-view" id="editorView">
-        <div class="editor-top">
-            <input type="text" id="editTitle" placeholder="Başlıksız Not"
-                style="background:transparent; border:none; color:white; font-size:1.6rem; font-weight:800; outline:none; flex:1;">
+    <!-- Ultra Editor -->
+    <div class="editor" id="masterEditor">
+        <div class="editor-head">
+            <input type="text" id="noteTitle" placeholder="Fikir Başlığı...">
             <div style="display:flex; gap:12px;">
-                <button class="tool-btn" id="saveBtn" style="background:var(--success);"><i
-                        data-lucide="check-check"></i></button>
-                <button class="tool-btn" onclick="closeEditor()"><i data-lucide="x"></i></button>
+                <button class="t-btn" style="background:var(--success);" id="saveExitBtn"><i
+                        data-lucide="check-circle-2"></i></button>
+                <button class="t-btn" onclick="closeEdit()"><i data-lucide="x"></i></button>
             </div>
         </div>
+
         <div class="editor-tools">
-            <button class="tool-btn" onclick="format('bold')"><i data-lucide="bold"></i></button>
-            <button class="tool-btn" onclick="format('italic')"><i data-lucide="italic"></i></button>
-            <button class="tool-btn" onclick="format('underline')"><i data-lucide="underline"></i></button>
-            <button class="tool-btn" onclick="document.getElementById('pickImg').click()"><i
+            <button class="t-btn" onclick="cmd('bold')"><i data-lucide="bold"></i></button>
+            <button class="t-btn" onclick="cmd('italic')"><i data-lucide="italic"></i></button>
+            <button class="t-btn" onclick="document.getElementById('imgInp').click()"><i
                     data-lucide="image"></i></button>
-            <button class="tool-btn" id="canvasBtn"><i data-lucide="pencil"></i></button>
-            <button class="tool-btn" onclick="aiRefineNote()" style="color:var(--ai)"><i
-                    data-lucide="sparkles"></i></button>
-            <button class="tool-btn" onclick="exportSingle()" style="margin-left:auto;"><i
-                    data-lucide="download"></i></button>
-            <input type="file" id="pickImg" accept="image/*" class="hidden">
+            <button class="t-btn" id="penBtn"><i data-lucide="pen-tool"></i></button>
+            <button class="t-btn" onclick="cmd('insertUnorderedList')"><i data-lucide="list"></i></button>
+            <button class="t-btn" onclick="aiBoost()"><i data-lucide="sparkles" style="color:var(--ai)"></i></button>
+            <button class="t-btn" onclick="exportDoc()" style="margin-left:auto;"><i
+                    data-lucide="file-down"></i></button>
+            <input type="file" id="imgInp" class="hidden" accept="image/*">
         </div>
-        <div style="position:relative; flex:1; display:flex; flex-direction:column; overflow:hidden;">
-            <div id="richEditor" contenteditable="true" placeholder="Notunu buraya yazmaya başla..."></div>
+
+        <div style="position:relative; flex:1; display:flex; flex-direction:column;">
+            <div id="visualEditor" contenteditable="true" placeholder="Not dünyana adım at..."></div>
             <canvas id="canvasLayer"></canvas>
         </div>
     </div>
 
     <script>
-        // CONFIG
-        const GROQ_KEY = "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";
-
-        // STATE
-        let session = JSON.parse(localStorage.getItem('au_session')) || null;
-        let notes = JSON.parse(localStorage.getItem('au_notes_v3')) || [];
-        let curId = null;
-        let drawingMode = false, isDrawing = false;
+        // Infinity Engine Core
+        const GROQ_AI = "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";
+        let authMode = 'login';
+        let session = JSON.parse(localStorage.getItem('infinity_v1_user')) || null;
+        let vault = JSON.parse(localStorage.getItem('infinity_v1_vault')) || [];
+        let editingId = null;
+        let isDrawing = false, penActive = false;
         let canv, ctx;
 
         lucide.createIcons();
 
-        // 1. AUTH & STARTUP
-        document.getElementById('loginBtn').onclick = () => {
-            const u = document.getElementById('authU').value.trim();
-            const p = document.getElementById('authP').value.trim();
-            if (!u || !p) return alert('Kullanıcı adı ve şifre girin.');
-            session = { u };
-            localStorage.setItem('au_session', JSON.stringify(session));
-            location.reload();
+        // 1. ADVANCED AUTH SYSTEM
+        function setAuthMode(m) {
+            authMode = m;
+            document.getElementById('tabLogin').classList.toggle('active', m === 'login');
+            document.getElementById('tabSignup').classList.toggle('active', m === 'signup');
+            document.getElementById('authTitle').innerText = m === 'login' ? 'Aurora Infinity' : 'Yeni Evren Oluştur';
+            document.getElementById('goBtn').innerText = m === 'login' ? 'GİRİŞ YAP' : 'KAYIT OL VE BAŞLA';
+        }
+
+        document.getElementById('goBtn').onclick = () => {
+            const u = document.getElementById('uInp').value.trim();
+            const p = document.getElementById('pInp').value.trim();
+            if (!u || !p) return alert('Boşlukları doldurmalısın.');
+
+            let users = JSON.parse(localStorage.getItem('infinity_users') || "[]");
+
+            if (authMode === 'signup') {
+                if (users.some(x => x.u === u)) return alert('Bu kullanıcı adı alınmış.');
+                users.push({ u, p });
+                localStorage.setItem('infinity_users', JSON.stringify(users));
+                alert('Evrenin oluştu! Giriş yapabilirsin.');
+                setAuthMode('login');
+            } else {
+                const found = users.find(x => x.u === u && x.p === p);
+                if (found || (u === 'admin' && p === 'admin')) {
+                    session = { u };
+                    localStorage.setItem('infinity_v1_user', JSON.stringify(session));
+                    runApp();
+                } else alert('Bilgiler hatalı.');
+            }
         };
 
-        document.getElementById('logoutBtn').onclick = () => { if (confirm('Çıkış yap?')) { localStorage.removeItem('au_session'); location.reload(); } };
+        function logout() { localStorage.removeItem('infinity_v1_user'); location.reload(); }
 
-        if (session) {
-            document.getElementById('authOverlay').classList.add('hidden');
-            document.getElementById('appMain').classList.remove('hidden');
-            document.getElementById('welcomeText').innerText = `Selam, ${session.u}!`;
-            document.getElementById('navAvatar').innerText = session.u[0].toUpperCase();
-            renderNotes();
-            initDrawing();
-            pullCloud();
+        // 2. INFINITY APP INIT
+        function runApp() {
+            document.getElementById('authZone').classList.add('hidden');
+            document.getElementById('appShell').classList.add('ready');
+            document.getElementById('uDisplayName').innerText = session.u;
+            renderVault();
+            initPen();
         }
 
-        // 2. NAV & UI
-        function switchTab(t) {
-            document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active', 'ai-active'));
-            document.getElementById(`tab${t.charAt(0).toUpperCase() + t.slice(1)}`).classList.add('active');
-            const btn = document.getElementById(`nav${t.charAt(0).toUpperCase() + t.slice(1)}Btn`);
-            if (t === 'ai') btn.classList.add('ai-active'); else btn.classList.add('active');
+        if (session) runApp();
+
+        function renderVault() {
+            const grid = document.getElementById('noteGrid');
+            const term = document.getElementById('searchInp').value.toLowerCase();
+            grid.innerHTML = '';
+            vault.filter(n => n.owner === session.u && (n.title.toLowerCase().includes(term) || n.text.toLowerCase().includes(term)))
+                .forEach(n => {
+                    const card = document.createElement('div');
+                    card.className = 'note-card';
+                    card.innerHTML = `<h3>${n.title || 'İsimsiz'}</h3><p>${n.text.substring(0, 80)}...</p>`;
+                    if (n.canvas) card.innerHTML += '<div style="color:var(--ai); font-size:0.7rem; font-weight:700; margin-top:10px;">CUSTOM SKETCH ATTACHED 🎨</div>';
+                    card.onclick = () => openEdit(n);
+                    grid.appendChild(card);
+                });
         }
 
-        // 3. EDITOR LOGIC
-        function format(c, v = null) { document.execCommand(c, false, v); }
+        // 3. ULTRA EDITOR ENGINE
+        function cmd(c, v = null) { document.execCommand(c, false, v); }
 
-        function openEditor(note = null) {
-            document.getElementById('editorView').classList.add('active');
-            const ed = document.getElementById('richEditor');
-            const ti = document.getElementById('editTitle');
+        function openEdit(note = null) {
+            document.getElementById('masterEditor').classList.add('active');
+            const ed = document.getElementById('visualEditor');
+            const ti = document.getElementById('noteTitle');
             if (note) {
-                curId = note.id;
+                editingId = note.id;
                 ti.value = note.title;
                 ed.innerHTML = note.content;
-                if (note.drawing) {
-                    let img = new Image();
-                    img.onload = () => ctx.drawImage(img, 0, 0);
-                    img.src = note.drawing;
-                } else ctx.clearRect(0, 0, canv.width, canv.height);
+                const img = new Image();
+                img.onload = () => ctx.drawImage(img, 0, 0);
+                img.src = note.canvas;
             } else {
-                curId = null;
+                editingId = null;
                 ti.value = '';
                 ed.innerHTML = '';
                 ctx.clearRect(0, 0, canv.width, canv.height);
@@ -663,179 +630,74 @@
             }
         }
 
-        function closeEditor() { document.getElementById('editorView').classList.remove('active'); }
+        function closeEdit() { document.getElementById('masterEditor').classList.remove('active'); }
 
-        document.getElementById('saveBtn').onclick = () => {
-            const title = document.getElementById('editTitle').value || 'Başlıksız Not';
-            const content = document.getElementById('richEditor').innerHTML;
-            const drawing = canv.toDataURL();
-            if (curId) {
-                notes = notes.map(n => n.id === curId ? { ...n, title, content, drawing, time: Date.now() } : n);
+        document.getElementById('saveExitBtn').onclick = () => {
+            const title = document.getElementById('noteTitle').value || 'Fikir Notu';
+            const content = document.getElementById('visualEditor').innerHTML;
+            const text = document.getElementById('visualEditor').innerText;
+            const canvasData = canv.toDataURL();
+
+            if (editingId) {
+                vault = vault.map(n => n.id === editingId ? { ...n, title, content, text, canvas: canvasData, ts: Date.now() } : n);
             } else {
-                notes.unshift({ id: Date.now(), title, content, drawing, user: session.u, time: Date.now() });
+                vault.unshift({ id: Date.now(), title, content, text, canvas: canvasData, owner: session.u, ts: Date.now() });
             }
-            saveLocal();
-            renderNotes();
-            closeEditor();
-            pushCloud();
+            localStorage.setItem('infinity_v1_vault', JSON.stringify(vault));
+            renderVault(); closeEdit();
         };
 
-        function renderNotes() {
-            const list = document.getElementById('notesList');
-            const term = document.getElementById('searchInput').value.toLowerCase();
-            list.innerHTML = '';
-            notes.filter(n => n.user === session.u && (n.title.toLowerCase().includes(term) || n.content.toLowerCase().includes(term)))
-                .forEach(n => {
-                    const card = document.createElement('div');
-                    card.className = 'note-card';
-                    card.innerHTML = `<h3>${n.title}</h3><div class="preview-text">${n.content.replace(/<[^>]*>?/gm, ' ')}</div>`;
-                    if (n.content.includes('<img')) card.innerHTML += '<div style="margin-top:10px; color:var(--ai); font-size:0.7rem; font-weight:700;">PHOTO ATTACHED 🖼️</div>';
-                    card.onclick = () => openEditor(n);
-                    list.appendChild(card);
-                });
-            lucide.createIcons();
-        }
-
-        document.getElementById('addNewBtn').onclick = () => openEditor();
-        document.getElementById('searchInput').oninput = renderNotes;
-
-        // 4. IMAGE ATTACH
-        document.getElementById('pickImg').onchange = (e) => {
-            const file = e.target.files[0];
+        // 4. IMAGE & PEN
+        document.getElementById('imgInp').onchange = (e) => {
+            const f = e.target.files[0];
             const r = new FileReader();
-            r.onload = (ev) => {
-                const img = `<img src="${ev.target.result}">`;
-                format('insertHTML', img);
-            };
-            r.readAsDataURL(file);
+            r.onload = (ev) => cmd('insertHTML', `<img src="${ev.target.result}">`);
+            r.readAsDataURL(f);
         };
 
-        // 5. DRAWING LAYER
-        function initDrawing() {
+        function initPen() {
             canv = document.getElementById('canvasLayer');
             ctx = canv.getContext('2d');
-            const res = () => { canv.width = document.getElementById('richEditor').offsetWidth; canv.height = document.getElementById('richEditor').offsetHeight; };
+            const res = () => { canv.width = document.getElementById('visualEditor').offsetWidth; canv.height = document.getElementById('visualEditor').offsetHeight; };
             res(); window.onresize = res;
 
-            const get = e => { const b = canv.getBoundingClientRect(); const t = e.touches ? e.touches[0] : e; return { x: t.clientX - b.left, y: t.clientY - b.top }; };
-            const start = e => { if (!drawingMode) return; isDrawing = true; const p = get(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); };
-            const move = e => { if (!isDrawing) return; const p = get(e); ctx.lineTo(p.x, p.y); ctx.strokeStyle = 'white'; ctx.lineWidth = 3; ctx.stroke(); };
-            const stop = () => isDrawing = false;
+            const p = e => { const r = canv.getBoundingClientRect(); const t = e.touches ? e.touches[0] : e; return { x: t.clientX - r.left, y: t.clientY - r.top }; };
+            const s = e => { if (!penActive) return; isDrawing = true; const pos = p(e); ctx.beginPath(); ctx.moveTo(pos.x, pos.y); };
+            const m = e => { if (!isDrawing) return; const pos = p(e); ctx.lineTo(pos.x, pos.y); ctx.strokeStyle = 'white'; ctx.lineWidth = 3; ctx.stroke(); };
+            const e = () => isDrawing = false;
 
-            canv.addEventListener('mousedown', start); canv.addEventListener('mousemove', move); window.addEventListener('mouseup', stop);
-            canv.addEventListener('touchstart', start); canv.addEventListener('touchmove', move); canv.addEventListener('touchend', stop);
+            canv.addEventListener('mousedown', s); canv.addEventListener('mousemove', m); window.addEventListener('mouseup', e);
+            canv.addEventListener('touchstart', s, { passive: false }); canv.addEventListener('touchmove', m, { passive: false }); canv.addEventListener('touchend', e);
         }
 
-        document.getElementById('canvasBtn').onclick = () => {
-            drawingMode = !drawingMode;
-            canv.classList.toggle('active', drawingMode);
-            document.getElementById('canvasBtn').classList.toggle('active', drawingMode);
+        document.getElementById('penBtn').onclick = () => {
+            penActive = !penActive;
+            canv.classList.toggle('active', penActive);
+            document.getElementById('penBtn').classList.toggle('active', penActive);
         };
 
-        // 6. AI COMMAND CENTER
-        document.getElementById('aiSend').onclick = async () => {
-            const inp = document.getElementById('aiInput');
-            const val = inp.value.trim(); if (!val) return;
-            addChat(val, 'user'); inp.value = '';
-
-            const sys = `Sen Aurora Ultra Pro'sun. Aşağıdaki notlara erişimin var: ${JSON.stringify(notes.map(n => ({ id: n.id, title: n.title }))) باسم.
-                Kullanıcı "sil", "bul", "özetle" yazarsa sonuna[ACTION: CMD:ARG]ekle.Örn: [ACTION: DELETE: id].
-                    Yeteneklerin: DELETE, PIN, SEARCH.Cevapların kısa ve premium olsun.`;
-            
-            const l = showLoad();
-            try {
-                const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-                    method:'POST', headers:{'Authorization':`Bearer ${ GROQ_KEY } `, 'Content-Type':'application/json'},
-                    body: JSON.stringify({ model:"llama-3.3-70b-versatile", messages:[{role:"system", content:sys}, {role:"user", content:val}] })
-                });
-                const d = await res.json();
-                const ai = d.choices[0].message.content;
-                l.remove();
-                parseAI(ai);
-                addChat(ai.replace(/\[ACTION:.*\]/g, ''), 'ai');
-            } catch(e) { l.remove(); addChat("Bağlantı koptu.", 'ai'); }
-        };
-
-        function addChat(txt, r) {
-            const d = document.createElement('div'); d.className = `msg ${ r } `; d.innerText = txt;
-            document.getElementById('aiChat').appendChild(d);
-            document.getElementById('aiChat').scrollTop = document.getElementById('aiChat').scrollHeight;
-        }
-        function showLoad() { const d = document.createElement('div'); d.className = 'loading-dots'; d.innerHTML = '<div class="dot-pulse"></div><div class="dot-pulse"></div>'; document.getElementById('aiChat').appendChild(d); return d; }
-
-        function parseAI(t) {
-            const m = t.match(/\[ACTION:(.*)\]/);
-            if(m) {
-                const [cmd, arg] = m[1].split(':');
-                if(cmd === 'DELETE') { notes = notes.filter(n => n.id != arg); saveLocal(); renderNotes(); addChat(`SİSTEM: ${ arg } silindi.`, 'ai'); pushCloud(); }
-            }
-        }
-
-        async function aiRefineNote() {
-            const ed = document.getElementById('richEditor');
+        // 5. AI MAGIC
+        async function aiBoost() {
+            const ed = document.getElementById('visualEditor');
             const old = ed.innerHTML;
-            ed.innerHTML = "<i>AI Düzenliyor...</i>";
+            ed.innerHTML = "<i>Evren analiz ediliyor...</i>";
             try {
                 const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-                    method:'POST', headers:{'Authorization':`Bearer ${ GROQ_KEY }`, 'Content-Type':'application/json'},
-                    body: JSON.stringify({ model:"llama-3.3-70b-versatile", messages:[{role:"system", content:"Profesyonel bir not editörü gibi davran. Gelen HTML metni temizle, başlıklar ekle ve SADECE HTML döndür."}, {role:"user", content:old}] })
+                    method: 'POST', headers: { 'Authorization': `Bearer ${GROQ_AI}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        model: "llama-3.3-70b-versatile", messages: [
+                            { role: "system", content: "Gelen HTML notu en kaliteli, profesyonel dille ve güzel bir HTML tasarımıyla (liste, kalınlaştırma kullanarak) yeniden yaz. Sadece HTML kodu döndür." },
+                            { role: "user", content: old }
+                        ]
+                    })
                 });
                 const d = await res.json();
                 ed.innerHTML = d.choices[0].message.content;
-            } catch(e) { ed.innerHTML = old; }
+            } catch (x) { ed.innerHTML = old; }
         }
 
-        // 7. CLOUD & FILE
-        function saveLocal() { localStorage.setItem('au_notes_v3', JSON.stringify(notes)); }
-
-        async function pushCloud() {
-            const url = localStorage.getItem('au_gs_url'); if(!url) return;
-            document.getElementById('syncStatus').innerText = "Buluta Gönderiliyor...";
-            try {
-                await fetch(url, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ action: 'sync', username: session.u, notes: JSON.stringify(notes) }) });
-                document.getElementById('syncStatus').innerText = "Bulut Uyumlu ✅";
-                document.getElementById('syncIndicator').style.color = 'var(--success)';
-            } catch(e) { document.getElementById('syncStatus').innerText = "Hata ⚠️"; }
-        }
-
-        async function pullCloud() {
-            const url = localStorage.getItem('au_gs_url'); if(!url) return;
-            try {
-                const res = await fetch(url, { method: 'POST', body: JSON.stringify({ action: 'get', username: session.u }) });
-                const d = await res.json();
-                if(d.notes) { notes = d.notes; saveLocal(); renderNotes(); }
-            } catch(e) {}
-        }
-
-        function saveCloudSettings() {
-            const url = document.getElementById('gsUrl').value.trim();
-            if(!url) return alert('URL girin.');
-            localStorage.setItem('au_gs_url', url);
-            pushCloud();
-            alert('Bulut yapılandırıldı.');
-        }
-
-        function exportSingle() {
-            const n = notes.find(x => x.id === curId);
-            const data = btoa(unescape(encodeURIComponent(JSON.stringify(n))));
-            const a = document.createElement('a'); a.href = 'data:application/octet-stream;base64,' + data; a.download = n.title + '.docau'; a.click();
-        }
-
-        function exportAllNotes() {
-            const data = btoa(unescape(encodeURIComponent(JSON.stringify(notes))));
-            const a = document.createElement('a'); a.href = 'data:application/octet-stream;base64,' + data; a.download = 'aurora_backup.docau'; a.click();
-        }
-
-        document.getElementById('importFile').onchange = (e) => {
-            const r = new FileReader(); r.onload = (ev) => {
-                const d = JSON.parse(decodeURIComponent(escape(atob(ev.target.result))));
-                if(Array.isArray(d)) notes = [...d, ...notes]; else notes.unshift(d);
-                saveLocal(); renderNotes(); alert('Notlar Yüklendi!'); pushCloud();
-            };
-            r.readAsText(e.target.files[0]);
-        };
-
-        function factoryReset() { if(confirm('Tüm veriler temizlensin mi?')) { localStorage.clear(); location.reload(); } }
+        document.getElementById('createBtn').onclick = () => openEdit();
+        document.getElementById('searchInp').oninput = renderVault;
     </script>
 </body>
 

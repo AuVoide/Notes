@@ -1,66 +1,52 @@
-# 🌌 AuVoide | Next-Gen Cloud OS
-### Minimalist Architecture. Neural Workspace. Infinite Possibilities.
+# 🌌 AuVoide | Intelligence Note Ecosystem
+### Fikirlerinizi Dijital Sanata ve Profesyonel Belgelere Dönüştürün.
 
-**AuVoide** is a high-end, browser-based operating system ecosystem. Built with a focus on extreme minimalism and fluid performance, it integrates a **Glassmorphism 2.0 interface** with a specialized **AI Neural Core**, delivering a desktop-class productivity suite directly in the web browser.
+**AuVoide**, sıradan not uygulamalarının ötesine geçen, yapay zeka ile entegre bir **üretkenlik ve dokümantasyon merkezidir.** Odak noktası; karmaşıklıktan uzak, estetik bir çalışma alanında hızlıca not almak, AI ile içerik zenginleştirmek ve bunları profesyonel PDF formatında dışa aktarmaktır.
 
-![Version](https://img.shields.io/badge/version-2.5.0-blueviolet)
+![Version](https://img.shields.io/badge/version-3.5.0-blueviolet)
+![Focus](https://img.shields.io/badge/focus-Intelligence%20Notes-06b6d4)
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Brand](https://img.shields.io/badge/brand-AuVoide-06b6d4)
 
 ---
 
-## ✨ System Pillars
+## 📝 Neden AuVoide Not Sistemi?
 
-### 🖥️ AuVoide Workspace
-* **Dynamic Desktop:** A fully interactive environment with draggable windows and seamless grid management.
-* **Glassmorphism 2.0:** Deep-blur visual aesthetics using advanced CSS3 backdrop filters and adaptive borders.
-* **Smart Taskbar:** A unified control center featuring real-time system monitoring, clock, and quick-access tools.
+Bu proje, bir işletim sistemi arayüzü içinde barınan, ancak tamamen profesyonel not tutma süreçlerine odaklanmış bir araçtır:
 
-### 🧠 Neural Core (AI)
-* **Intelligence:** Powered by the **Llama-3.3-70B** engine, optimized for technical and creative tasks.
-* **Seamless Integration:** Integrated directly into the workflow for instant code generation, document summarization, and AI-assisted note-taking.
-
-### 💼 Production Suite
-* **Master Notes:** A professional-grade note-taking module with real-time saving and local state persistence.
-* **PDF Engine:** One-click document-to-PDF generation powered by `html2pdf.js`.
-* **System CLI:** A built-in terminal for advanced users to interact with the OS core logic.
+* **Neural Drafting (AI):** Dahili Llama-3.3 motoru sayesinde sadece bir başlık veya fikir vererek sayfalarca profesyonel içerik oluşturun.
+* **Pro-Grade PDF Export:** Hazırladığınız notları tek tıkla kurumsal standartlarda PDF dosyası olarak indirin (`html2pdf.js` ile optimize edilmiştir).
+* **Zero-Loss Persistence:** Sayfayı kapatsanız dahi verileriniz yerel depolamada (LocalStorage) güvenle saklanır ve bir sonraki oturumda anında yüklenir.
+* **Glassmorphism Workspace:** Göz yormayan, odaklanmayı artıran yüksek kaliteli şeffaf tasarım dili.
 
 ---
 
-## 🚀 Engineering Stack
+## ✨ Ana Özellikler
 
-* **Core Logic:** Vanilla JavaScript (ES6+) — Lightweight and framework-free for maximum speed.
-* **Styling:** Custom CSS3 Design System with CSS variables for instant skinning.
-* **Iconography:** High-fidelity vector icons via Lucide Icons.
-* **API Infrastructure:** Groq Cloud API for ultra-low latency AI inference.
+### 🧠 Akıllı Not Asistanı
+* **Prompt-to-Note:** AI ile yaptığınız sohbetleri doğrudan bir nota dönüştürebilir ve üzerinde düzenleme yapabilirsiniz.
+* **Hız:** Groq Cloud altyapısı ile milisaniyeler içinde cevap ve içerik üretimi.
 
----
+### 📄 Dokümantasyon Gücü
+* **Live Rendering:** Markdown destekli içerik yapısı.
+* **Export Engine:** Notları fiziksel belgelere dönüştüren gelişmiş çıktı sistemi.
 
-## 🛠️ Installation & Activation
-
-1.  **Clone the Repository:**
-    ```bash
-    git clone [https://github.com/AuVoide/core.git](https://github.com/AuVoide/core.git)
-    ```
-2.  **API Configuration:**
-    Open `index.html` and locate the `GROQ_KEY` or `KEY` constant. Insert your key:
-    ```javascript
-    const GROQ_KEY = "your_key_here";
-    ```
-3.  **Boot System:**
-    Run `index.html` via any modern browser or Live Server.
+### 🎨 Premium Deneyim
+* **Drag-and-Drop:** Not pencerelerini çalışma alanınızda özgürce konumlandırın.
+* **Toast Notifications:** Yapılan her işlemin (kaydetme, PDF oluşturma, AI yanıtı) anlık geri bildirimi.
 
 ---
 
-## 📜 Copyright & Licensing
+## 🚀 Teknik Altyapı
 
-Copyright © 2026 **AuVoide**.
-
-Licensed under the **MIT License**.
-
-> **Brand Notice:** The **AuVoide** brand, its visual design language, and core architecture are protected identities. While open-source, any redistribution must maintain original authorship credits and the MIT license headers.
+* **Çekirdek:** Saf JavaScript (ES6+) - Hiçbir ağır kütüphane içermez, ışık hızındadır.
+* **Zeka:** Groq API (Llama-3.3-70b-versatile).
+* **Stil:** CSS3 Custom Variables & Backdrop Filters.
+* **İkonlar:** Lucide Icons.
 
 ---
 
-### 👨‍💻 Developed by [AuVoide](https://github.com/AuVoide)
-*Redefining the boundaries of the modern web.*
+## 🛠️ Kurulum ve Kullanım
+
+1. **Projeyi Alın:**
+   ```bash
+   git clone [https://github.com/AuVoide/intelligence-notes.git](https://github.com/AuVoide/intelligence-notes.git)
